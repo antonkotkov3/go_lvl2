@@ -8,7 +8,7 @@ import (
 func main() {
 	slice := []int{0,1,2,3,4,5}
 	panicTime:=time.Now()
-	err1:=fmt.Errorf("Время обнаружения ошибки: %v ",panicTime)//собственная ошибка
+	err1:=fmt.Errorf("Время обнаружения ошибки: %v ",panicTime)//создана собственная ошибка
 
 	defer func () {
 
