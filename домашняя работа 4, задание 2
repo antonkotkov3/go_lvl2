@@ -1,0 +1,30 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+)
+
+func main() {
+	signalChannel := make(chan os.Signal, 2) //создаем канал, в который будем принимать сигнал
+	signal.Notify(signalChannel, syscall.SIGTERM)
+	time.Sleep(2 * time.Second)
+	go func() {
+		for sig := range signalChannel { //пробегаемся по каналу в поисках нужного сигнала
+			switch sig {
+			case syscall.SIGTERM:
+				fmt.Printf("triggered\n")
+				timer := time.NewTimer(1 * time.Second)//устанавливаю таймаут
+				<-timer.C
+				close(signalChannel)
+				os.Exit(1)
+
+			}
+		}
+
+	}()
+
+}
