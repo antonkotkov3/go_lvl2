@@ -14,7 +14,7 @@ func main() {
 func CreateFile() {
 	var i int
 	var n = 0
-	err1 := errors.New("Ошибка выполнения сценария")
+	err1 := errors.New("Ошибка выполнения ")
 
 	for i = 1; i < 1000001; i++ {
 		n = n + 1
