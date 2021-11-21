@@ -1,0 +1,65 @@
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+func main() {
+	m := make(map[int]int)
+	x := rand.Intn(100)
+
+
+		go func() {
+			m[x] = x
+		}()
+
+	
+
+	m[2] = 2
+  time.Sleep(2 * time.Second)
+	for k, v := range m {
+		fmt.Println(k, v)
+
+
+	}
+}
+
+/*anton@anton-VirtualBox:~/Projects/homework6$ go run -race hw6.3.go
+==================
+WARNING: DATA RACE
+Write at 0x00c00007e180 by main goroutine:
+  runtime.mapassign_fast64()
+      /home/anton/usr/local/go/src/runtime/map_fast64.go:92 +0x0
+  main.main()
+      /home/anton/Projects/homework6/hw6.3.go:20 +0xd4
+
+Previous write at 0x00c00007e180 by goroutine 7:
+  runtime.mapassign_fast64()
+      /home/anton/usr/local/go/src/runtime/map_fast64.go:92 +0x0
+  main.main.func1()
+      /home/anton/Projects/homework6/hw6.3.go:15 +0x4e
+
+Goroutine 7 (finished) created at:
+  main.main()
+      /home/anton/Projects/homework6/hw6.3.go:14 +0xa4
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c000092048 by main goroutine:
+  main.main()
+      /home/anton/Projects/homework6/hw6.3.go:21 +0x177
+
+Previous write at 0x00c000092048 by goroutine 7:
+  main.main.func1()
+      /home/anton/Projects/homework6/hw6.3.go:15 +0x64
+
+Goroutine 7 (finished) created at:
+  main.main()
+      /home/anton/Projects/homework6/hw6.3.go:14 +0xa4
+==================
+81 81
+2 2
+Found 2 data race(s)
+exit status 66*/
