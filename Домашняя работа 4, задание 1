@@ -1,0 +1,23 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch:=make(chan int,1000)
+	for i:=0;i<1000;i++{
+		go worker(i,ch)
+	}
+	time.Sleep(4*time.Second)
+fmt.Printf("Емкость канала %d, длина канала %d",cap(ch),len(ch))
+}
+
+func worker(id int, ch chan int) {
+	time.Sleep(3 * time.Second)
+	ch<-id //Записываю в канал
+	value := <-ch // и в рамках цикла сразу читаю из канала
+	fmt.Println(value)
+
+}
